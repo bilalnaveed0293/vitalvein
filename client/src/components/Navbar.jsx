@@ -74,6 +74,12 @@ const Navbar = () => {
                   >
                     Submit a Blood Request
                   </Link>
+                  <Link
+                    to="/eligibility-checker"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Check Donation Eligibility
+                  </Link>
                 </div>
               </div>
               {user && (
@@ -255,6 +261,12 @@ const Navbar = () => {
                 className="block pl-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-700"
               >
                 Submit a Blood Request
+              </Link>
+              <Link
+                to="/eligibility-checker"
+                className="block pl-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-700"
+              >
+                Check Donation Eligibility
               </Link>
             </div>
           </div>

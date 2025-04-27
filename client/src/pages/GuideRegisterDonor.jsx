@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom'; // Add this import
 
 const GuideRegisterDonor = () => {
   return (
@@ -24,7 +25,8 @@ const GuideRegisterDonor = () => {
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">Step 2: Complete Your Profile</h2>             <p className="text-gray-600">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">Step 2: Complete Your Profile</h2>
+              <p className="text-gray-600">
                 After registering, log in and go to your <a href="/donor-profile" className="text-red-600 hover:underline">Donor Profile</a>. Fill in your personal details, including your blood type, location, and contact information.
               </p>
             </div>
@@ -32,7 +34,7 @@ const GuideRegisterDonor = () => {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Step 3: Verify Eligibility</h2>
               <p className="text-gray-600">
-                Ensure you meet the eligibility criteria for blood donation (e.g., age, weight, health conditions). You may need to confirm your eligibility with a health questionnaire.
+                Ensure you meet the eligibility criteria for blood donation (e.g., age, weight, health conditions). You can use our <Link to="/eligibility-checker" className="text-red-600 hover:underline">Donation Eligibility Checker</Link> to confirm your eligibility.
               </p>
             </div>
 

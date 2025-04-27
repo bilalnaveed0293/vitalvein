@@ -25,10 +25,11 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import DonorFeedback from "./pages/DonorFeedback";
-import GuideRegisterDonationCenter from "./pages/GuideRegisterDonationCenter"; // New guide
-import GuideRegisterDonor from "./pages/GuideRegisterDonor"; // New guide
-import GuideScheduleAppointment from "./pages/GuideScheduleAppointment"; // New guide
-import GuideSubmitBloodRequest from "./pages/GuideSubmitBloodRequest"; // New guide
+import GuideRegisterDonationCenter from "./pages/GuideRegisterDonationCenter";
+import GuideRegisterDonor from "./pages/GuideRegisterDonor";
+import GuideScheduleAppointment from "./pages/GuideScheduleAppointment";
+import GuideSubmitBloodRequest from "./pages/GuideSubmitBloodRequest";
+import DonationEligibilityChecker from "./pages/DonationEligibilityChecker"; // New page
 
 function App() {
   return (
@@ -46,10 +47,11 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
-          <Route path="/guide-register-donation-center" element={<GuideRegisterDonationCenter />} /> {/* New Guide */}
-          <Route path="/guide-register-donor" element={<GuideRegisterDonor />} /> {/* New Guide */}
-          <Route path="/guide-schedule-appointment" element={<GuideScheduleAppointment />} /> {/* New Guide */}
-          <Route path="/guide-submit-blood-request" element={<GuideSubmitBloodRequest />} /> {/* New Guide */}
+          <Route path="/guide-register-donation-center" element={<GuideRegisterDonationCenter />} />
+          <Route path="/guide-register-donor" element={<GuideRegisterDonor />} />
+          <Route path="/guide-schedule-appointment" element={<GuideScheduleAppointment />} />
+          <Route path="/guide-submit-blood-request" element={<GuideSubmitBloodRequest />} />
+          <Route path="/eligibility-checker" element={<DonationEligibilityChecker />} /> {/* New route */}
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
