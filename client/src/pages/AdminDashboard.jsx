@@ -12,6 +12,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([])
   const [appointments, setAppointments] = useState([])
   const [bloodRequests, setBloodRequests] = useState([])
+  const [feedbacks, setFeedbacks] = useState([]) // New state for feedbacks
   const [isLoading, setIsLoading] = useState(true)
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -20,6 +21,7 @@ const AdminDashboard = () => {
     totalAppointments: 0,
     completedDonations: 0,
     pendingRequests: 0,
+    totalFeedbacks: 0, // New stat for total feedbacks
   })
 
   useEffect(() => {
@@ -27,16 +29,18 @@ const AdminDashboard = () => {
       try {
         setIsLoading(true)
 
-        // Fetch all data in parallel
-        const [usersRes, appointmentsRes, requestsRes] = await Promise.all([
+        // Fetch all data in parallel, including feedbacks
+        const [usersRes, appointmentsRes, requestsRes, feedbackRes] = await Promise.all([
           axios.get("/api/users/admin/all"),
           axios.get("/api/appointments/admin/all"),
           axios.get("/api/blood-requests/admin/all"),
+          axios.get("/api/feedback"), // Fetch feedbacks
         ])
 
         setUsers(usersRes.data)
         setAppointments(appointmentsRes.data)
         setBloodRequests(requestsRes.data)
+        setFeedbacks(feedbackRes.data) // Set feedback data
 
         // Calculate stats
         const totalDonors = usersRes.data.filter((user) => user.userType === "donor").length
@@ -51,6 +55,7 @@ const AdminDashboard = () => {
           totalAppointments: appointmentsRes.data.length,
           completedDonations,
           pendingRequests,
+          totalFeedbacks: feedbackRes.data.length, // Add total feedbacks to stats
         })
       } catch (error) {
         toast.error("Failed to load admin data")
@@ -171,11 +176,11 @@ const AdminDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="mt-2 text-sm text-gray-600">Manage users, appointments, and blood requests.</p>
+            <p className="mt-2 text-sm text-gray-600">Manage users, appointments, blood requests, and feedback.</p>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             <div className="bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <dl>
@@ -218,6 +223,20 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
+
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Total Feedbacks</dt>
+                  <dd className="mt-1 text-3xl font-semibold text-gray-900">{stats.totalFeedbacks}</dd>
+                </dl>
+              </div>
+              <div className="bg-gray-50 px-4 py-4 sm:px-6">
+                <div className="text-sm">
+                  <span className="text-gray-500">From Donors</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Tabs */}
@@ -252,6 +271,16 @@ const AdminDashboard = () => {
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 Blood Requests
+              </button>
+              <button
+                onClick={() => setActiveTab("feedbacks")}
+                className={`${
+                  activeTab === "feedbacks"
+                    ? "border-red-500 text-red-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+              >
+                Feedbacks
               </button>
             </nav>
           </div>
@@ -605,6 +634,69 @@ const AdminDashboard = () => {
                 </div>
               </div>
             )}
+
+            {activeTab === "feedbacks" && (
+              <div>
+                <div className="px-4 py-5 sm:px-6">
+                  <h2 className="text-lg font-medium text-gray-900">Feedbacks</h2>
+                </div>
+                <div className="border-t border-gray-200">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Donor
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Rating
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Comment
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Submitted On
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {feedbacks.map((feedback) => (
+                        <tr key={feedback._id}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                              {feedback.userId?.name || "Unknown"}
+                            </div>
+                            <div className="text-sm text-gray-500">{feedback.userId?.email || "Unknown"}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                              {feedback.rating}/5
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-wrap">
+                            <div className="text-sm text-gray-500">{feedback.comment}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {new Date(feedback.createdAt).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>
@@ -615,4 +707,3 @@ const AdminDashboard = () => {
 }
 
 export default AdminDashboard
-

@@ -43,6 +43,39 @@ const Navbar = () => {
               >
                 Campaigns
               </Link>
+              <div className="relative group">
+                <button
+                  className="border-transparent text-gray-500 hover:border-red-500 hover:text-red-700 inline-flex items-center mt-6 border-b-2 text-sm font-medium focus:outline-none"
+                >
+                  Guides
+                </button>
+                <div className="absolute z-10 left-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <Link
+                    to="/guide-register-donation-center"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Register a Donation Center
+                  </Link>
+                  <Link
+                    to="/guide-register-donor"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Register as a Donor
+                  </Link>
+                  <Link
+                    to="/guide-schedule-appointment"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Schedule an Appointment
+                  </Link>
+                  <Link
+                    to="/guide-submit-blood-request"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Submit a Blood Request
+                  </Link>
+                </div>
+              </div>
               {user && (
                 <>
                   <Link
@@ -57,15 +90,21 @@ const Navbar = () => {
                   >
                     Appointments
                   </Link>
+                  <Link
+                    to="/feedback"
+                    className="border-transparent text-gray-500 hover:border-red-500 hover:text-red-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                  >
+                    Feedback
+                  </Link>
+                  {user.role === "admin" && (
+                    <Link
+                      to="/admin"
+                      className="border-transparent text-gray-500 hover:border-red-500 hover:text-red-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                    >
+                      Admin
+                    </Link>
+                  )}
                 </>
-              )}
-              {user && user.role === "admin" && (
-                <Link
-                  to="/admin"
-                  className="border-transparent text-gray-500 hover:border-red-500 hover:text-red-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                >
-                  Admin
-                </Link>
               )}
             </div>
           </div>
@@ -89,27 +128,35 @@ const Navbar = () => {
                   </button>
                 </div>
                 {isMenuOpen && (
-                  <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {user.role === "admin" ? (
                       <>
-                        <Link to="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <Link to="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700">
                           Admin Dashboard
                         </Link>
-                        <Link to="/admin/campaigns" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <Link to="/admin/campaigns" className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700">
                           Manage Campaigns
                         </Link>
                       </>
                     ) : (
-                      <Link
-                        to={user.userType === "donor" ? "/donor-profile" : "/recipient-profile"}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Your Profile
-                      </Link>
+                      <>
+                        <Link
+                          to={user.userType === "donor" ? "/donor-profile" : "/recipient-profile"}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                        >
+                          Your Profile
+                        </Link>
+                        <Link
+                          to="/feedback"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
+                        >
+                          Feedback
+                        </Link>
+                      </>
                     )}
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700"
                     >
                       Sign out
                     </button>
@@ -118,7 +165,7 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex space-x-4">
-                <Link to="/login" className="text-gray-500 hover:text-red-600">
+                <Link to="/login" className="text-gray-500 hover:text-red-600 px-3 py-2 text-sm font-medium">
                   Login
                 </Link>
                 <Link
@@ -182,6 +229,35 @@ const Navbar = () => {
           >
             Campaigns
           </Link>
+          <div className="pl-3 pr-4 py-2">
+            <div className="text-base font-medium text-gray-600">Guides</div>
+            <div className="mt-1 space-y-1">
+              <Link
+                to="/guide-register-donation-center"
+                className="block pl-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-700"
+              >
+                Register a Donation Center
+              </Link>
+              <Link
+                to="/guide-register-donor"
+                className="block pl-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-700"
+              >
+                Register as a Donor
+              </Link>
+              <Link
+                to="/guide-schedule-appointment"
+                className="block pl-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-700"
+              >
+                Schedule an Appointment
+              </Link>
+              <Link
+                to="/guide-submit-blood-request"
+                className="block pl-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-700"
+              >
+                Submit a Blood Request
+              </Link>
+            </div>
+          </div>
           {user && (
             <>
               <Link
@@ -196,22 +272,20 @@ const Navbar = () => {
               >
                 Appointments
               </Link>
-            </>
-          )}
-          {user && user.role === "admin" && (
-            <>
               <Link
-                to="/admin"
+                to="/feedback"
                 className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-red-500 hover:text-red-700"
               >
-                Admin
+                Feedback
               </Link>
-              <Link
-                to="/admin/campaigns"
-                className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-red-500 hover:text-red-700"
-              >
-                Manage Campaigns
-              </Link>
+              {user.role === "admin" && (
+                <Link
+                  to="/admin"
+                  className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-red-500 hover:text-red-700"
+                >
+                  Admin
+                </Link>
+              )}
             </>
           )}
         </div>
@@ -251,12 +325,20 @@ const Navbar = () => {
                     </Link>
                   </>
                 ) : (
-                  <Link
-                    to={user.userType === "donor" ? "/donor-profile" : "/recipient-profile"}
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                  >
-                    Your Profile
-                  </Link>
+                  <>
+                    <Link
+                      to={user.userType === "donor" ? "/donor-profile" : "/recipient-profile"}
+                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                    >
+                      Your Profile
+                    </Link>
+                    <Link
+                      to="/feedback"
+                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                    >
+                      Feedback
+                    </Link>
+                  </>
                 )}
                 <button
                   onClick={handleLogout}
@@ -285,8 +367,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
-
+export default Navbar;

@@ -3,7 +3,8 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const dotenv = require("dotenv")
 const path = require("path")
-
+const feedbackRoutes = require('./routes/feedback');
+const authMiddleware = require('./middleware/auth');
 // Load environment variables
 dotenv.config()
 
@@ -36,7 +37,6 @@ mongoose
     console.error("MongoDB connection error:", err)
     console.error("Please check your MONGODB_URI environment variable and ensure MongoDB is running")
   })
-
 // Routes
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
@@ -44,6 +44,7 @@ app.use("/api/appointments", appointmentRoutes)
 app.use("/api/blood-requests", bloodRequestRoutes)
 app.use("/api/donation-centers", donationCenterRoutes)
 app.use("/api/campaigns", campaignRoutes)
+app.use('/api/feedback', authMiddleware, feedbackRoutes);
 //app.use("/api/debug", debugRoutes) // Add debug routes
 
 // Serve static assets in production
